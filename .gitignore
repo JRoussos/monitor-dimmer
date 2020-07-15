@@ -1,0 +1,11 @@
+#Extentions
+*.cbp
+*.layout
+*.depend
+*.ini
+
+#Folders
+/bin
+/obj
+
+#Files
