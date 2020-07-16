@@ -26,10 +26,12 @@
 POINT cursor;                      // Cursor position
 BOOL is_hidden = false;
 HINSTANCE instance;
+HMENU menu_instance;
 INT checked_item = GetPrivateProfileInt("Settings", "checked_item", ID_OPACITY_80, "./config.ini");
 
 BOOL ShowPopupMenu( HWND hWnd, POINT *curpos, int wDefaultItem ) {
       HMENU hPop = CreatePopupMenu();
+      menu_instance = hPop;
 
       InsertMenu( hPop, 0, MF_BYPOSITION | MF_STRING, ID_SHOW, "Show/Hide");
       InsertMenu( hPop, 1, MF_BYPOSITION | MF_SEPARATOR, ID_OPACITY, "");
@@ -45,21 +47,18 @@ BOOL ShowPopupMenu( HWND hWnd, POINT *curpos, int wDefaultItem ) {
           }
        }
 
-      InsertMenu( hPop, 11, MF_BYPOSITION | MF_SEPARATOR, ID_OPACITY, "");
-      InsertMenu( hPop, 12, MF_BYPOSITION | MF_STRING, ID_EXIT , "Exit");
+      InsertMenu( hPop, 7, MF_BYPOSITION | MF_SEPARATOR, ID_OPACITY, "");
+      InsertMenu( hPop, 8, MF_BYPOSITION | MF_STRING, ID_EXIT , "Exit");
 
-      SetMenuDefaultItem( hPop, ID_SHOW, FALSE );
-      SetFocus          ( hWnd );
-      SendMessage       ( hWnd, WM_INITMENUPOPUP, (WPARAM)hPop, 0 );
+      SetMenuDefaultItem(hPop, ID_SHOW, FALSE);
+      SetForegroundWindow(hWnd);
+      SendMessage(hWnd, WM_INITMENUPOPUP, (WPARAM)hPop, 0);
 
-      {
-        GetCursorPos(&cursor);
-        {
-          WORD cmd = TrackPopupMenu( hPop, TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD | TPM_NONOTIFY, cursor.x, cursor.y, 0, hWnd, NULL );
+      GetCursorPos(&cursor);
+      WORD cmd = TrackPopupMenu( hPop, TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD | TPM_NONOTIFY, cursor.x, cursor.y, 0, hWnd, NULL );
 
-          SendMessage( hWnd, WM_COMMAND, cmd, 0 );
-        }
-      }
+      SendMessage( hWnd, WM_COMMAND, cmd, 0 );
+    
       DestroyMenu(hPop);
       return 0;
     }

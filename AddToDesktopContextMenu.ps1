@@ -16,10 +16,11 @@
 [CmdletBinding()]
 param ( 
 	[Parameter(Mandatory=$true)]
-	[string]$action
+	[string]$action,
+	[string]$name = $null
 )
 $title = "Dim This Screen"
-$path = "$PSScriptRoot\hwdh.exe"
+$path = "$PSScriptRoot\$name"
 $icon = "$PSScriptRoot\icon_48.ico"
 
 #This function is to add an item to context menu
@@ -86,7 +87,11 @@ Function Remove-OSCContextItem(
 
 
 If($action -eq "install"){
-	Add-OSCContextItem $title $path
+	If(Test-Path $path -PathType leaf){
+		Add-OSCContextItem $title $path
+	}Else{
+		Write-Warning "Failed to locate '$path'. "
+	}
 }Elseif($action -eq "remove"){
 	Remove-OSCContextItem $title
 }Else{
