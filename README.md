@@ -7,6 +7,9 @@ I have a dual monitor setup and when I'm full-screen on one of them, the other i
 
 The idea was to add a new item on the Desktop right click context menu to run the app quickly. So I found this [powershell script](https://gallery.technet.microsoft.com/scriptcenter/Script-to-add-an-item-to-f523f1f3) online and modified it a little to do this exact thing.
 
+### Update
+So I use this little dimmer app almost daily now and I found that in many occasions I'm using it at night to make the monitors less bright. So I added the feature to change the monitor on which the app is running and a full screen option for global dimming.
+
 ### How to run it
 Run PowerShell Console Prompt as Administrator and run the script like this to add the new item to Desktop menu:
 

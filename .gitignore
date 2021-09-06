@@ -5,6 +5,7 @@
 *.ini
 
 #Folders
+.vscode/
 /bin
 /obj
 
