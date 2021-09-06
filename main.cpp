@@ -88,7 +88,7 @@ BOOL ShowPopupMenu(HWND hWnd, POINT *curpos, int wDefaultItem)
             ss << "Monitor " << i+1;
             std::string monitor_num = ss.str();
 
-            if (selected_monitor == i) 
+            if (selected_monitor == (100+i)) 
             {
                 InsertMenu(hSub, (i+2), MF_BYPOSITION | MF_CHECKED, (100+i), monitor_num.c_str());
             }
@@ -243,7 +243,7 @@ int WINAPI WinMain(HINSTANCE hThisInstance, HINSTANCE hPrevInstance, LPSTR lpszA
     {
         if (MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST) == monitorVec[i]) 
         {
-            selected_monitor = i;
+            selected_monitor = (100+i);
             break;
         }
     }
