@@ -18,7 +18,7 @@
 
 #define ID_SHOW         2000
 #define ID_EXIT         2001
-#define ID_OPACITY      2002
+#define ID_SEPARATOR    2002
 
 #define ID_OPACITY_50   2003
 #define ID_OPACITY_60   2004
@@ -54,7 +54,7 @@ BOOL ShowPopupMenu(HWND hWnd, POINT *curpos, int wDefaultItem)
     menu_instance = hPop;
 
     InsertMenu(hPop, 0, MF_BYPOSITION | MF_STRING, ID_SHOW, _T("Show/Hide"));
-    InsertMenu(hPop, 1, MF_BYPOSITION | MF_SEPARATOR, ID_OPACITY, NULL);
+    InsertMenu(hPop, 1, MF_BYPOSITION | MF_SEPARATOR, ID_SEPARATOR, NULL);
 
     for (int i = 1; i < 6; i++)
     {
@@ -74,11 +74,11 @@ BOOL ShowPopupMenu(HWND hWnd, POINT *curpos, int wDefaultItem)
 
     if (monitorVec.size() > 1)
     {
-        InsertMenu(hPop, 7, MF_BYPOSITION | MF_SEPARATOR, ID_OPACITY, NULL);
+        InsertMenu(hPop, 7, MF_BYPOSITION | MF_SEPARATOR, ID_SEPARATOR, NULL);
         InsertMenu(hPop, 8, MF_BYPOSITION | MF_POPUP, UINT(hSub), _T("Show on:"));
 
         InsertMenu(hSub, 0, MF_BYPOSITION | MF_STRING, ID_FULL_SCR, _T("All Monitors"));
-        InsertMenu(hSub, 1, MF_BYPOSITION | MF_SEPARATOR, ID_OPACITY, NULL);
+        InsertMenu(hSub, 1, MF_BYPOSITION | MF_SEPARATOR, ID_SEPARATOR, NULL);
 
         for (std::vector <HMONITOR>::iterator it=monitorVec.begin(); it != monitorVec.end(); ++it)
         {
@@ -99,7 +99,7 @@ BOOL ShowPopupMenu(HWND hWnd, POINT *curpos, int wDefaultItem)
         }
     }
 
-    InsertMenu(hPop, 9, MF_BYPOSITION | MF_SEPARATOR, ID_OPACITY, NULL);
+    InsertMenu(hPop, 9, MF_BYPOSITION | MF_SEPARATOR, ID_SEPARATOR, NULL);
     InsertMenu(hPop, 10, MF_BYPOSITION | MF_STRING, ID_EXIT, _T("Exit"));
 
     SetMenuDefaultItem(hPop, ID_SHOW, FALSE);
@@ -323,7 +323,7 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
             WritePrivateProfileString(_T("Settings"), _T("checked_item"), _T("2007"), _T("./config.ini"));
             break;
         case ID_FULL_SCR: 
-            SetWindowPos(hwnd, NULL, GetSystemMetrics(SM_XVIRTUALSCREEN), 0, GetSystemMetrics(SM_CXVIRTUALSCREEN), GetSystemMetrics(SM_CYVIRTUALSCREEN), SWP_NOREDRAW | SWP_NOSENDCHANGING | SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_FRAMECHANGED);
+            SetWindowPos(hwnd, NULL, GetSystemMetrics(SM_XVIRTUALSCREEN), GetSystemMetrics(SM_YVIRTUALSCREEN), GetSystemMetrics(SM_CXVIRTUALSCREEN), GetSystemMetrics(SM_CYVIRTUALSCREEN), SWP_NOREDRAW | SWP_NOSENDCHANGING | SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_FRAMECHANGED);
             selected_monitor = ID_FULL_SCR;
             break;
         case ID_EXIT:
@@ -338,7 +338,7 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
                     int width = std::abs(mi.rcMonitor.right - mi.rcMonitor.left);
                     int height = std::abs(mi.rcMonitor.bottom - mi.rcMonitor.top);
 
-                    SetWindowPos(hwnd, NULL, mi.rcMonitor.left, 0, width, height, SWP_NOREDRAW | SWP_NOSENDCHANGING | SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_FRAMECHANGED);
+                    SetWindowPos(hwnd, NULL, mi.rcMonitor.left, mi.rcMonitor.top, width, height, SWP_NOREDRAW | SWP_NOSENDCHANGING | SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_FRAMECHANGED);
                     selected_monitor = LOWORD(wParam);
                     break;
                 }
